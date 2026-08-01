@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
-import * as http from 'http'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/UF_icon.png?asset'
 
@@ -12,7 +10,7 @@ import { saveSecureConfig, loadSecureConfig } from './configManager'
 let mainWindow: BrowserWindow | null = null
 
 function createWindow(): void {
-  // Create the browser window with fixed dimensions and kiosk safety flags
+  // Create the browser window with standard desktop behavior for now
   mainWindow = new BrowserWindow({
     width: 1600,
     height: 1000,
@@ -27,15 +25,6 @@ function createWindow(): void {
       sandbox: false
     }
   })
-
-  // Check saved secure config state on boot
-  const config = loadSecureConfig()
-  if (config.installed && config.kioskMode) {
-    mainWindow.setKiosk(true)
-    mainWindow.setAlwaysOnTop(true, 'screen-saver')
-    mainWindow.setVisibleOnAllWorkspaces(true)
-    mainWindow.setSkipTaskbar(true)
-  }
 
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show()
@@ -63,7 +52,7 @@ app.whenReady().then(() => {
 
   // IPC listener triggered when the user finishes the installation flow
   ipcMain.on('apply-policies', (_event, policyData: Record<string, unknown>) => {
-    // 1. Save the configuration data into secure local storage via the config manager
+    // Save the configuration data into secure local storage via the config manager
     saveSecureConfig({
       installed: true,
       policiesAccepted: true,
@@ -72,35 +61,10 @@ app.whenReady().then(() => {
     })
 
     if (mainWindow) {
-      // 2. Enforce OS-Level Kiosk Lockdown and Window Restrictions
-      mainWindow.setKiosk(true)
-      mainWindow.setAlwaysOnTop(true, 'screen-saver')
-      mainWindow.setVisibleOnAllWorkspaces(true)
-      mainWindow.setSkipTaskbar(true)
-
-      // 3. Initialize Offline Network Synchronization Server on Port 8080
-      const syncServer = http.createServer((req, res) => {
-        if (req.method === 'POST' && req.url === '/sync') {
-          let body = ''
-          req.on('data', chunk => {
-            body += chunk.toString()
-          })
-          req.on('end', () => {
-            res.writeHead(200, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify({ status: 'success', message: 'Attendance log synced locally.' }))
-          })
-        } else {
-          res.writeHead(404, { 'Content-Type': 'text/plain' })
-          res.end('UniFied Secure Kiosk Gateway Active')
-        }
-      })
-
-      syncServer.listen(8080, '0.0.0.0', () => {
-        console.log('UniFied offline sync server running securely on port 8080')
-      })
+      console.log('Skipping kiosk lock and sync server for now.')
     }
   })
-  
+
   // IPC handler to send the saved state data directly to the React Dashboard
   ipcMain.handle('get-secure-config', () => {
     return loadSecureConfig()
