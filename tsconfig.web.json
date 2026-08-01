@@ -1,0 +1,58 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+  "include": [
+    "src/renderer/src/env.d.ts",
+    "src/renderer/src/**/*",
+    "src/renderer/src/**/*.tsx",
+    "src/preload/*.d.ts"
+  ],
+    "compilerOptions": {
+        "composite": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@renderer/*": [
+                "src/renderer/src/*"
+            ],
+            "@preload/*": [
+                "src/preload/*"
+            ],
+            "@shared/*": [
+                "src/shared/*"
+            ],
+            "@main/*": [
+                "src/main/*"
+            ],
+            "@/pages/*": [
+                "src/renderer/src/pages/*"
+            ],
+            "@/components/*": [
+                "src/renderer/src/components/*"
+            ],
+            "@/assets/*": [
+                "src/renderer/src/assets/*"
+            ]
+        },
+        "moduleResolution": "Bundler",
+        "types": ["vite/client", "vitest/globals"],
+        "esModuleInterop": true,
+        "module": "preserve",
+        "target": "es2020",
+        "lib": [
+            "esnext",
+            "dom",
+            "es2020"
+        ],
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictPropertyInitialization": true,
+        "noImplicitOverride": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
+    }
+}

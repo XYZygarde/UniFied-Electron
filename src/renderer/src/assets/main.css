@@ -1,13 +1,50 @@
-@import './base.css';
+/* DM Sans (Standard text) */
+@import '@fontsource/dm-sans/400.css';
+@import '@fontsource/dm-sans/500.css';
+@import '@fontsource/dm-sans/700.css';
 
-body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background-image: url('./wavy-lines.svg');
-  background-size: cover;
-  user-select: none;
+/* Poppins (Headings) */
+@import '@fontsource/poppins/400.css';
+@import '@fontsource/poppins/600.css';
+@import '@fontsource/poppins/700.css';
+
+/* Montserrat */
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/600.css';
+
+/* DM Mono (Terminal/Logs) */
+@import '@fontsource/dm-mono/400.css';
+@import '@fontsource/dm-mono/500.css';
+
+@import 'tailwindcss';
+@config '../../../../tailwind.config.js';
+
+@layer base {
+  html {
+    font-family: 'DM Sans', sans-serif;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+    background-image: url('./wavy-lines.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    user-select: none;
+  }
+
+  #root {
+    width: 100%;
+    min-height: 100vh;
+  }
 }
 
 code {
@@ -31,7 +68,6 @@ code {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 80px;
 }
 
 .logo {
@@ -146,9 +182,10 @@ code {
   font-size: 14px;
   line-height: 14px;
   opacity: 0.8;
-  &:last-child {
-    border: none;
-  }
+}
+
+.versions li:last-child {
+  border: none;
 }
 
 @media (max-width: 720px) {
@@ -169,3 +206,4 @@ code {
     display: none;
   }
 }
+
