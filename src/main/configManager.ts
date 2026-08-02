@@ -8,6 +8,12 @@ export interface SecureConfig {
   kioskMode?: boolean
   policiesAccepted?: boolean
   installedAt?: string
+  permissionsGranted?: boolean
+  restrictionsDisabledForNow?: boolean
+  syncPort?: number | null
+  computerName?: string
+  computerRoom?: string
+  computerBuilding?: string
   [key: string]: unknown
 }
 
@@ -15,7 +21,13 @@ const configPath = join(app.getPath('userData'), 'secure-config.enc')
 
 export function saveSecureConfig(data: SecureConfig): void {
   try {
-    const jsonString = JSON.stringify(data)
+    const existingConfig = loadSecureConfig()
+    const mergedConfig = {
+      ...existingConfig,
+      ...data,
+    }
+    const jsonString = JSON.stringify(mergedConfig)
+
     if (safeStorage.isEncryptionAvailable()) {
       const encryptedBuffer = safeStorage.encryptString(jsonString)
       fs.writeFileSync(configPath, encryptedBuffer)
@@ -38,6 +50,15 @@ export function loadSecureConfig(): SecureConfig {
     }
   } catch (error) {
     console.error('Failed to load secure configuration:', error)
+  }
+  return { installed: false, policiesAccepted: false }
+}
+
+export function eraseSecureConfig(): SecureConfig {
+  try {
+    fs.unlinkSync(configPath)
+    } catch (error) {
+    console.error('Failed to erase secure configuration:', error)
   }
   return { installed: false, policiesAccepted: false }
 }

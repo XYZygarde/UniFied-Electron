@@ -1,31 +1,14 @@
 /* eslint-disable prettier/prettier */
-import { useEffect } from 'react'
 import logoUrl from '@/assets/logo/UnifiedLogo.png'
 import { useNavigate } from 'react-router-dom'
 
 function Landing(): React.JSX.Element {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        const checkConfiguration = async (): Promise<void> => {
-            if (typeof window !== 'undefined' && window.api?.invoke) {
-                try {
-                    const config = await window.api.invoke('get-secure-config')
-                    if (config && typeof config === 'object' && 'installed' in config && config.installed) {
-                        navigate('/dashboard')
-                    }
-                } catch (error) {
-                    console.error('Failed to load secure configuration:', error)
-                }
-            }
-        }
-
-        void checkConfiguration()
-    }, [navigate])
-
     const handleInstall = (): void => {
         console.log('Triggering installation sequence...')
-        navigate('/install')
+        navigate('/install'); 
+      
     }
 
     const handleTerms = (): void => {

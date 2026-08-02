@@ -7,8 +7,6 @@ import Setup from '@/pages/Setup'
 //Access Level
 import Dashboard from '@/pages/access/Dashboard'
 
-
-
 function App(): React.JSX.Element {
   return (
     <HashRouter>

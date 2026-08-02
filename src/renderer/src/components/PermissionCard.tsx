@@ -10,7 +10,7 @@ interface PermissionCardProps {
 
 function PermissionCard({ title, description, index, checked, onToggle }: PermissionCardProps): React.JSX.Element {
   return (
-    <label className="flex cursor-pointer items-start gap-4 rounded-lg border border-white/30 bg-[#111625] px-4 py-5 transition-colors hover:border-blue-300/60 sm:gap-8 sm:px-6 sm:py-6">
+    <label className="flex cursor-pointer items-start gap-4  bg-[#111625] px-4 py-5 transition-colors hover:border-blue-300/60 sm:gap-8 sm:px-6 sm:py-6">
       <input
         type="checkbox"
         checked={checked}
@@ -31,7 +31,7 @@ function PermissionCard({ title, description, index, checked, onToggle }: Permis
 
       <span className="min-w-0">
         <span className="block font-display text-base font-bold leading-6 text-white text-left sm:text-lg">{title}</span>
-        <span className="mt-2 block text-[14px] text-left leading-5 text-white sm:mt-4">{description}</span>
+        <span className="mt-2 block text-[12px] text-left leading-5 text-white sm:mt-4">{description}</span>
       </span>
     </label>
   )
